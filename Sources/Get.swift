@@ -1,14 +1,14 @@
 //
 //  ValueGetters.swift
-//  Allegro
+//  Reflection
 //
 //  Created by Bradley Hilton on 3/17/16.
 //  Copyright © 2016 Brad Hilton. All rights reserved.
 //
 
 /// Get value for key from instance
-public func valueForKey(key: String, ofInstance instance: Any) throws -> Any {
-    for property in try propertiesForInstance(instance) {
+public func get(_ key: String, from instance: Any) throws -> Any {
+    for property in try properties(instance) {
         if property.key == key {
             return property.value
         }
@@ -17,10 +17,10 @@ public func valueForKey(key: String, ofInstance instance: Any) throws -> Any {
 }
 
 /// Get value for key from instance as type `T`
-public func valueForKey<T>(key: String, ofInstance instance: Any) throws -> T {
-    let any: Any = try valueForKey(key, ofInstance: instance)
+public func get<T>(_ key: String, from instance: Any) throws -> T {
+    let any: Any = try get(key, from: instance)
     guard let value = any as? T else {
-        throw Error.ValueIsNotOfType(value: any, type: T.self)
+        throw Error.ValueIsNotType(value: any, type: T.self)
     }
     return value
 }

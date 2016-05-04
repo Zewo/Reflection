@@ -56,8 +56,8 @@ class Tests: XCTestCase {
     func testConstructType() {
         for _ in 0..<1000 {
             do {
-                let person: Person = try constructType {
-                    (["firstName" : "Brad", "lastName": "Hilton", "age": 27] as [String : Any])[$0.name]!
+                let person: Person = try construct {
+                    (["firstName" : "Brad", "lastName": "Hilton", "age": 27] as [String : Any])[$0.key]!
                 }
                 let other = Person(firstName: "Brad", lastName: "Hilton", age: 27)
                 XCTAssert(person == other)
@@ -70,8 +70,8 @@ class Tests: XCTestCase {
     func testConstructReferenceType() {
         for _ in 0..<1000 {
             do {
-                let person: ReferencePerson = try constructType {
-                    (["firstName" : "Brad", "lastName": "Hilton", "age": 27] as [String : Any])[$0.name]!
+                let person: ReferencePerson = try construct {
+                    (["firstName" : "Brad", "lastName": "Hilton", "age": 27] as [String : Any])[$0.key]!
                 }
                 let other = ReferencePerson(firstName: "Brad", lastName: "Hilton", age: 27)
                 XCTAssert(person == other)
@@ -85,7 +85,7 @@ class Tests: XCTestCase {
         var properties = [Property]()
         do {
             let person = Person(firstName: "Brad", lastName: "Hilton", age: 27)
-            properties = try propertiesForInstance(person)
+            properties = try Reflection.properties(person)
             guard properties.count == 3 else {
                 XCTFail("Unexpected number of properties"); return
             }
@@ -104,7 +104,7 @@ class Tests: XCTestCase {
     func testSetValueForKeyOfInstance() {
         do {
             var person = Person(firstName: "Brad", lastName: "Hilton", age: 27)
-            try Reflection.setValue("Lawrence", forKey: "firstName", ofInstance: &person)
+            try Reflection.set("Lawrence", key: "firstName", for: &person)
             XCTAssert(person.firstName == "Lawrence")
         } catch {
             XCTFail(String(error))
@@ -115,7 +115,7 @@ class Tests: XCTestCase {
     func testValueForKeyOfInstance() {
         do {
             let person = Person(firstName: "Brad", lastName: "Hilton", age: 29)
-            let firstName: String = try Reflection.valueForKey("firstName", ofInstance: person)
+            let firstName: String = try Reflection.get("firstName", from: person)
             XCTAssert(person.firstName == firstName)
         } catch {
             XCTFail(String(error))
