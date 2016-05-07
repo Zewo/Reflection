@@ -19,7 +19,15 @@ class InternalTests: XCTestCase {
             XCTAssert(shallowMetadata.valueWitnessTable.stride == strideof(type))
         }
         testShallowMetadata(type: Person.self, expectedKind: .Struct)
+        testShallowMetadata(type: (String, Int).self, expectedKind: .Tuple)
+        testShallowMetadata(type: ((String) -> Int).self, expectedKind: .Function)
+        testShallowMetadata(type: Any.self, expectedKind: .Existential)
+        testShallowMetadata(type: String.Type.self, expectedKind: .Metatype)
         testShallowMetadata(type: ReferencePerson.self, expectedKind: .Class)
+    }
+    
+    func testMetadataKind() {
+
     }
     
     func testNominalMetadata() {
