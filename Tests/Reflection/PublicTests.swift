@@ -139,7 +139,7 @@ class PublicTests: XCTestCase {
         XCTAssert(!Reflection.value(referencePerson, is: Person.self))
         XCTAssert(Reflection.value(subclassedPerson, is: SubclassedPerson.self))
         XCTAssert(Reflection.value(subclassedPerson, is: ReferencePerson.self))
-        XCTAssert(!Reflection.value(subclassedPerson, is: NSObject.self))
+        XCTAssert(!Reflection.value(referencePerson, is: SubclassedPerson.self))
     }
     
 }
