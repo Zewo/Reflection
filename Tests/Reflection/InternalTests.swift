@@ -24,7 +24,6 @@ class InternalTests: XCTestCase {
     
     func testNominalMetadata() {
         func testMetadata<T : NominalType>(metadata: T, expectedName: String) {
-            XCTAssert(metadata.nominalTypeDescriptor.mangledName.contains(expectedName))
             XCTAssert(metadata.nominalTypeDescriptor.numberOfFields == 3)
             XCTAssert(metadata.nominalTypeDescriptor.fieldNames == ["firstName", "lastName", "age"])
             XCTAssertNotNil(metadata.nominalTypeDescriptor.fieldTypesAccessor)
