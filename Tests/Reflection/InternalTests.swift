@@ -26,10 +26,6 @@ class InternalTests: XCTestCase {
         testShallowMetadata(type: ReferencePerson.self, expectedKind: .Class)
     }
     
-    func testMetadataKind() {
-
-    }
-    
     func testNominalMetadata() {
         func testMetadata<T : NominalType>(metadata: T, expectedName: String) {
             XCTAssert(metadata.nominalTypeDescriptor.numberOfFields == 3)
