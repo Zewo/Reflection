@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zewo. All rights reserved.
 //
 
-extension RandomAccessIndex {
+extension Strideable {
     
     mutating func advance() {
         self = advanced(by: 1)
