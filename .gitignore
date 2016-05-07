@@ -28,5 +28,4 @@ xcuserdata
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
-XcodeDevelopment/
-Reflection.xcodeproj
+./Reflection
