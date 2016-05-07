@@ -51,7 +51,7 @@ func ==(lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
     return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName && lhs.age == rhs.age
 }
 
-class Tests: XCTestCase {
+class PublicTests: XCTestCase {
     
     func testConstructType() {
         for _ in 0..<1000 {
@@ -122,4 +122,37 @@ class Tests: XCTestCase {
         }
     }
     
+    func testValueIs() {
+        XCTAssert(Reflection.value("John", is: String.self))
+        XCTAssert(Reflection.value(89, is: Int.self))
+        XCTAssert(Reflection.value(["Larry"], is: Array<String>.self))
+        XCTAssert(!Reflection.value("John", is: Array<String>.self))
+        XCTAssert(!Reflection.value(89, is: String.self))
+        XCTAssert(!Reflection.value(["Larry"], is: Int.self))
+        class SubclassedPerson : ReferencePerson {}
+        let person = Person(firstName: "Hillary", lastName: "Mason", age: 32)
+        let referencePerson = ReferencePerson()
+        let subclassedPerson = SubclassedPerson()
+        XCTAssert(Reflection.value(person, is: Person.self))
+        XCTAssert(Reflection.value(referencePerson, is: ReferencePerson.self))
+        XCTAssert(!Reflection.value(person, is: ReferencePerson.self))
+        XCTAssert(!Reflection.value(referencePerson, is: Person.self))
+        XCTAssert(Reflection.value(subclassedPerson, is: SubclassedPerson.self))
+        XCTAssert(Reflection.value(subclassedPerson, is: ReferencePerson.self))
+        XCTAssert(!Reflection.value(subclassedPerson, is: NSObject.self))
+    }
+    
+}
+
+extension PublicTests {
+    static var allTests: [(String, ResourceTests -> () throws -> Void)] {
+        return [
+            ("testConstructType", testConstructType),
+            ("testConstructReferenceType", testConstructReferenceType),
+            ("testPropertiesForInstance", testPropertiesForInstance),
+            ("testSetValueForKeyOfInstance", testSetValueForKeyOfInstance),
+            ("testValueForKeyOfInstance", testValueForKeyOfInstance),
+            ("testValueIs", testValueIs)
+        ]
+    }
 }

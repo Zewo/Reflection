@@ -9,7 +9,7 @@
 import XCTest
 @testable import Reflection
 
-class MetadataTests: XCTestCase {
+class InternalTests: XCTestCase {
     
     func testShallowMetadata() {
         func testShallowMetadata<T>(type: T.Type, expectedKind: Metadata.Kind) {
@@ -50,28 +50,20 @@ class MetadataTests: XCTestCase {
         XCTAssertNil(metadata.superclass?.superclass) // nil
     }
     
-    func testInstanceValueis() {
-        XCTAssert(Reflection.value("John", is: String.self))
-        XCTAssert(Reflection.value(89, is: Int.self))
-        XCTAssert(Reflection.value(["Larry"], is: Array<String>.self))
-        XCTAssert(!Reflection.value("John", is: Array<String>.self))
-        XCTAssert(!Reflection.value(89, is: String.self))
-        XCTAssert(!Reflection.value(["Larry"], is: Int.self))
-        class SubclassedPerson : ReferencePerson {}
-        let person = Person(firstName: "Hillary", lastName: "Mason", age: 32)
-        let referencePerson = ReferencePerson()
-        let subclassedPerson = SubclassedPerson()
-        XCTAssert(Reflection.value(person, is: Person.self))
-        XCTAssert(Reflection.value(referencePerson, is: ReferencePerson.self))
-        XCTAssert(!Reflection.value(person, is: ReferencePerson.self))
-        XCTAssert(!Reflection.value(referencePerson, is: Person.self))
-        XCTAssert(Reflection.value(subclassedPerson, is: SubclassedPerson.self))
-        XCTAssert(Reflection.value(subclassedPerson, is: ReferencePerson.self))
-        XCTAssert(!Reflection.value(subclassedPerson, is: NSObject.self))
-    }
+
     
 }
 
 func ==(lhs: [Any.Type], rhs: [Any.Type]) -> Bool {
     return zip(lhs, rhs).reduce(true) { $1.0 != $1.1 ? false : $0 }
+}
+
+extension InternalTests {
+    static var allTests: [(String, ResourceTests -> () throws -> Void)] {
+        return [
+            ("testShallowMetadata", testShallowMetadata),
+            ("testNominalMetadata", testNominalMetadata),
+            ("testSuperclass", testSuperclass)
+        ]
+    }
 }
