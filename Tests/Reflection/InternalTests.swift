@@ -1,10 +1,3 @@
-//
-//  MetadataTests.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/3/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 import XCTest
 @testable import Reflection
@@ -18,12 +11,12 @@ class InternalTests: XCTestCase {
             XCTAssert(shallowMetadata.valueWitnessTable.size == sizeof(type))
             XCTAssert(shallowMetadata.valueWitnessTable.stride == strideof(type))
         }
-        testShallowMetadata(type: Person.self, expectedKind: .Struct)
-        testShallowMetadata(type: (String, Int).self, expectedKind: .Tuple)
-        testShallowMetadata(type: ((String) -> Int).self, expectedKind: .Function)
-        testShallowMetadata(type: Any.self, expectedKind: .Existential)
-        testShallowMetadata(type: String.Type.self, expectedKind: .Metatype)
-        testShallowMetadata(type: ReferencePerson.self, expectedKind: .Class)
+        testShallowMetadata(type: Person.self, expectedKind: .struct)
+        testShallowMetadata(type: (String, Int).self, expectedKind: .tuple)
+        testShallowMetadata(type: ((String) -> Int).self, expectedKind: .function)
+        testShallowMetadata(type: Any.self, expectedKind: .existential)
+        testShallowMetadata(type: String.Type.self, expectedKind: .metatype)
+        testShallowMetadata(type: ReferencePerson.self, expectedKind: .class)
     }
     
     func testNominalMetadata() {

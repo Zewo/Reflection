@@ -1,18 +1,11 @@
-//
-//  Error.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/16/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 public enum Error : ErrorProtocol, CustomStringConvertible {
     
-    case NotStructOrClass(type: Any.Type)
-    case ClassNotInitializable(type: Any.Type)
-    case ValueIsNotType(value: Any, type: Any.Type)
-    case InstanceHasNoKey(type: Any.Type, key: String)
-    case RequiredValueMissing(key: String)
+    case notStructOrClass(type: Any.Type)
+    case classNotInitializable(type: Any.Type)
+    case valueIsNotType(value: Any, type: Any.Type)
+    case instanceHasNoKey(type: Any.Type, key: String)
+    case requiredValueMissing(key: String)
     
     public var description: String {
         return "Reflection Error: \(caseDescription)"
@@ -20,11 +13,11 @@ public enum Error : ErrorProtocol, CustomStringConvertible {
     
     var caseDescription: String {
         switch self {
-        case .NotStructOrClass(type: let type): return "\(type) is not a struct or class"
-        case .ClassNotInitializable(type: let type): return "Class type \(type) cannot be constructed because it does not conform to Initializable"
-        case .ValueIsNotType(value: let value, type: let type): return "Cannot set value of type \(value.dynamicType) as \(type)"
-        case .InstanceHasNoKey(type: let type, key: let key): return "Instance of type \(type) has no key \(key)"
-        case .RequiredValueMissing(key: let key): return "No value found for required key \"\(key)\" in dictionary"
+        case .notStructOrClass(type: let type): return "\(type) is not a struct or class"
+        case .classNotInitializable(type: let type): return "Class type \(type) cannot be constructed because it does not conform to Initializable"
+        case .valueIsNotType(value: let value, type: let type): return "Cannot set value of type \(value.dynamicType) as \(type)"
+        case .instanceHasNoKey(type: let type, key: let key): return "Instance of type \(type) has no key \(key)"
+        case .requiredValueMissing(key: let key): return "No value found for required key \"\(key)\" in dictionary"
         }
     }
     

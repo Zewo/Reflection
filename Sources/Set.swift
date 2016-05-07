@@ -1,10 +1,3 @@
-//
-//  ValueSetters.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/17/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 /// Set value for key of an instance
 public func set(_ value: Any, key: String, for instance: inout Any) throws {
@@ -25,13 +18,13 @@ public func set<T>(_ value: Any, key: String, for instance: inout T) throws {
 }
 
 private func propertyForType(_ type: Any.Type, withName key: String) throws -> Property.Description {
-    guard let property = try properties(type).filter({ $0.key == key }).first else { throw Error.InstanceHasNoKey(type: type, key: key) }
+    guard let property = try properties(type).filter({ $0.key == key }).first else { throw Error.instanceHasNoKey(type: type, key: key) }
     return property
 }
 
 private func setValue(_ value: Any, forKey key: String, property: Property.Description, storage: UnsafeMutablePointer<Int>) throws {
     var storage = storage.advanced(by: property.offset)
-    guard Reflection.value(value, is: property.type) else { throw Error.ValueIsNotType(value: value, type: property.type) }
+    guard Reflection.value(value, is: property.type) else { throw Error.valueIsNotType(value: value, type: property.type) }
     var copy: Any = value
     storage.consumeBuffer(bufferForInstance(&copy))
 }

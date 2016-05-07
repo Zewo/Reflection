@@ -1,10 +1,3 @@
-//
-//  ValueWitnessTable.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/4/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 // https://github.com/apple/swift/blob/swift-3.0-branch/lib/IRGen/ValueWitness.h
 struct ValueWitnessTable : PointerType {

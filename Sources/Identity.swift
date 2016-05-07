@@ -1,10 +1,3 @@
-//
-//  Equatable.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/4/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 /// Tests if `value` is `type` or a subclass of `type`
 public func value(_ value: Any, is type: Any.Type) -> Bool {

@@ -1,10 +1,3 @@
-//
-//  Metadata.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/4/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 struct Metadata : MetadataType {
     
@@ -15,7 +8,7 @@ struct Metadata : MetadataType {
     }
     
     var isStructOrClass: Bool {
-        return kind == .Struct || kind == .Class
+        return kind == .struct || kind == .class
     }
     
 }

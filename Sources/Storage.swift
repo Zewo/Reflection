@@ -1,10 +1,3 @@
-//
-//  Storage.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/17/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 func mutableStorageForInstance(_ instance: inout Any) -> UnsafeMutablePointer<Int> {
     return UnsafeMutablePointer<Int>(storageForInstance(&instance))

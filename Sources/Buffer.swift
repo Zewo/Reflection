@@ -1,10 +1,3 @@
-//
-//  Buffer.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/4/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 func bufferForInstance(_ instance: inout Any) -> UnsafeBufferPointer<Int> {
     let size = wordSizeForType(instance.dynamicType)

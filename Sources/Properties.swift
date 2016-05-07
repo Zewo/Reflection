@@ -1,10 +1,3 @@
-//
-//  Properties.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 4/5/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 /// An instance property
 public struct Property {
@@ -36,7 +29,7 @@ public func properties(_ type: Any.Type) throws -> [Property.Description] {
     } else if let nominalType = Metadata.Class(type: type) {
         return propertiesForNominalType(nominalType)
     } else {
-        throw Error.NotStructOrClass(type: type)
+        throw Error.notStructOrClass(type: type)
     }
 }
 

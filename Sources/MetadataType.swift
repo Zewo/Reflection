@@ -1,10 +1,3 @@
-//
-//  MetadataType.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/4/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 protocol MetadataType : PointerType {
     static var kind: Metadata.Kind? { get }

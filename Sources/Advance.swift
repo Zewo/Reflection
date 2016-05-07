@@ -1,10 +1,3 @@
-//
-//  Advance.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/4/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 extension Strideable {
     

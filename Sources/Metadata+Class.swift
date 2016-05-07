@@ -1,16 +1,9 @@
-//
-//  Metadata+Class.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/4/16.
-//  Copyright © 2016 Zewo. All rights reserved.
-//
 
 extension Metadata {
     
     struct Class : NominalType {
         
-        static let kind: Kind? = .Class
+        static let kind: Kind? = .class
         var pointer: UnsafePointer<_Metadata._Class>
         
         var nominalTypeDescriptorOffsetLocation: Int {

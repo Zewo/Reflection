@@ -1,10 +1,3 @@
-//
-//  ValueGetters.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 3/17/16.
-//  Copyright © 2016 Brad Hilton. All rights reserved.
-//
 
 /// Get value for key from instance
 public func get(_ key: String, from instance: Any) throws -> Any {
@@ -13,14 +6,14 @@ public func get(_ key: String, from instance: Any) throws -> Any {
             return property.value
         }
     }
-    throw Error.InstanceHasNoKey(type: instance.dynamicType, key: key)
+    throw Error.instanceHasNoKey(type: instance.dynamicType, key: key)
 }
 
 /// Get value for key from instance as type `T`
 public func get<T>(_ key: String, from instance: Any) throws -> T {
     let any: Any = try get(key, from: instance)
     guard let value = any as? T else {
-        throw Error.ValueIsNotType(value: any, type: T.self)
+        throw Error.valueIsNotType(value: any, type: T.self)
     }
     return value
 }
