@@ -47,6 +47,8 @@ class ReferencePerson : Initializable, Equatable {
     
 }
 
+class SubclassedPerson : ReferencePerson {}
+
 func ==(lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
     return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName && lhs.age == rhs.age
 }
@@ -129,7 +131,7 @@ class PublicTests: XCTestCase {
         XCTAssert(!Reflection.value("John", is: Array<String>.self))
         XCTAssert(!Reflection.value(89, is: String.self))
         XCTAssert(!Reflection.value(["Larry"], is: Int.self))
-        class SubclassedPerson : ReferencePerson {}
+
         let person = Person(firstName: "Hillary", lastName: "Mason", age: 32)
         let referencePerson = ReferencePerson()
         let subclassedPerson = SubclassedPerson()

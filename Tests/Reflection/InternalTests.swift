@@ -42,14 +42,11 @@ class InternalTests: XCTestCase {
     }
     
     func testSuperclass() {
-        guard let metadata = Metadata.Class(type: ReferencePerson.self) else {
+        guard let metadata = Metadata.Class(type: SubclassedPerson.self) else {
             return XCTFail()
         }
-        XCTAssertNotNil(metadata.superclass) // SwiftObject
-        XCTAssertNil(metadata.superclass?.superclass) // nil
+        XCTAssertNotNil(metadata.superclass) // ReferencePerson
     }
-    
-
     
 }
 
