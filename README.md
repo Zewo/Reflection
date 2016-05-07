@@ -47,5 +47,5 @@ This project is released under the MIT license. See [LICENSE](LICENSE) for detai
 [slack-url]: http://slack.zewo.io
 [travis-badge]: https://travis-ci.org/Zewo/Reflection.svg?branch=master
 [travis-url]: https://travis-ci.org/Zewo/Reflection
-[codebeat-badge]: https://codebeat.co/badges/91b2fd92-e2e5-42e9-b56a-12184eb7b06a
+[codebeat-badge]: https://codebeat.co/badges/85f3c10b-6574-4956-8c58-bb6ad3ea1268
 [codebeat-url]: https://codebeat.co/projects/github-com-zewo-reflection
