@@ -81,7 +81,7 @@ extension Mappable {
                     return value
                 }
             } else {
-                throw MappableError.missingRequiredValue(key: property.key)
+                throw Error.missingRequiredValue(key: property.key)
             }
         }
     }
