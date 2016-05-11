@@ -52,6 +52,73 @@ let package = Package(
 )
 ```
 
+## Advanced Usage
+
+```swift
+// `Reflection` can be extended for higher-level packages to do mapping and serializing. 
+// Here is a simple `Mappable` protocol that allows deserializing of arbitrary nested structures.
+
+import Reflection
+
+enum Error : ErrorProtocol {
+  .missingRequiredValue(key: String)
+}
+
+protocol Mappable {
+  init(dictionary: [String : Any]) throws
+}
+
+extension Mappable {
+
+  init(dictionary: [String : Any]) throws {
+    self = try construct { property in
+      if let value = dictionary[property.key] {
+        if let type = property.type as? Mappable.Type, let value = value as? [String : Dictionary] {
+          return try type.init(dictionary: value)
+        } else {
+          return value
+        }
+      } else if let nilLiteralConvertible = property.type as? NilLiteralConvertible.Type {
+        return nilLiteralConvertible.init(nilLiteral: ())
+      } else {
+        throw Error.missingRequiredValue(key: property.key)
+      }
+    }
+  }
+
+}
+
+struct Person : Mappable {
+  var firstName: String
+  var lastName: String
+  var age: Int?
+  var friends: [Person]
+}
+
+let dictionary = [
+                    "firstName" : "Jane",
+                    "lastName" : "Miller",
+                    "age" : 54,
+                    "friends" : [
+                                  [
+                                    "firstName" : "Doug",
+                                    "lastName" : "Howell",
+                                    "friends" : []
+                                  ],
+                                  [
+                                    "firstName" : "Janet",
+                                    "lastName" : "Baker",
+                                    "age": 46,
+                                    "friends" : []
+                                  ]
+                                ]
+                  ]
+
+let person = try Person(dictionary: dictionary)
+                                                
+                                                
+```
+
 ## Support
 
 If you need any help you can join our [Slack](http://slack.zewo.io) and go to the **#help** channel. Or you can create a Github [issue](https://github.com/Zewo/Zewo/issues/new) in our main repository. When stating your issue be sure to add enough details, specify what module is causing the problem and reproduction steps.
