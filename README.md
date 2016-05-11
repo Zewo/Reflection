@@ -8,6 +8,38 @@
 [![Travis][travis-badge]][travis-url]
 [![Codebeat][codebeat-badge]][codebeat-url]
 
+**Reflection** provides an API for advanced reflection at runtime including dynamic construction of types.
+
+## Usage
+
+```swift
+import Reflection
+
+struct Person {
+  var firstName: String
+  var lastName: String
+  var age: Int
+}
+
+// Reflects the instance properties of type `Person`
+let properties = try properties(Person)
+
+var person = Person(firstName: "John", lastName: "Smith", age: 35)
+
+// Retrieves the value of `person.firstName`
+let firstName: String = try get("firstName", from: person)
+
+// Sets the value of `person.age`
+try set(36, key: "age", for: &person)
+
+// Creates a `Person` from a dictionary
+let friend: Person = try construct(dictionary: ["firstName" : "Sarah", 
+                                                "lastName" : "Gates", 
+                                                "age" : 28])
+                                                
+                                                
+```
+
 ## Installation
 
 ```swift
