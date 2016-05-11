@@ -60,63 +60,58 @@ let package = Package(
 
 import Reflection
 
+typealias MappableDictionary = [String : Any]
+
 enum Error : ErrorProtocol {
-  .missingRequiredValue(key: String)
+    case missingRequiredValue(key: String)
 }
 
 protocol Mappable {
-  init(dictionary: [String : Any]) throws
+    init(dictionary: MappableDictionary) throws
 }
 
 extension Mappable {
-
-  init(dictionary: [String : Any]) throws {
-    self = try construct { property in
-      if let value = dictionary[property.key] {
-        if let type = property.type as? Mappable.Type, let value = value as? [String : Dictionary] {
-          return try type.init(dictionary: value)
-        } else {
-          return value
+    
+    init(dictionary: MappableDictionary) throws {
+        self = try construct { property in
+            if let value = dictionary[property.key] {
+                if let type = property.type as? Mappable.Type, let value = value as? MappableDictionary {
+                    return try type.init(dictionary: value)
+                } else {
+                    return value
+                }
+            } else {
+                throw MappableError.missingRequiredValue(key: property.key)
+            }
         }
-      } else if let nilLiteralConvertible = property.type as? NilLiteralConvertible.Type {
-        return nilLiteralConvertible.init(nilLiteral: ())
-      } else {
-        throw Error.missingRequiredValue(key: property.key)
-      }
     }
-  }
-
+    
 }
 
 struct Person : Mappable {
-  var firstName: String
-  var lastName: String
-  var age: Int?
-  var friends: [Person]
+    var firstName: String
+    var lastName: String
+    var age: Int
+    var phoneNumber: PhoneNumber
+}
+ 
+struct PhoneNumber : Mappable {
+    var number: String
+    var type: String
 }
 
-let dictionary = [
-                    "firstName" : "Jane",
-                    "lastName" : "Miller",
-                    "age" : 54,
-                    "friends" : [
-                                  [
-                                    "firstName" : "Doug",
-                                    "lastName" : "Howell",
-                                    "friends" : []
-                                  ],
-                                  [
-                                    "firstName" : "Janet",
-                                    "lastName" : "Baker",
-                                    "age": 46,
-                                    "friends" : []
-                                  ]
-                                ]
-                  ]
+let dictionary: MappableDictionary = [
+    "firstName" : "Jane",
+    "lastName" : "Miller",
+    "age" : 54,
+    "phoneNumber" : [
+        "number" : "924-555-0294",
+        "type" : "work"
+    ] as MappableDictionary
+]
 
 let person = try Person(dictionary: dictionary)
-                                                
-                                                
+
 ```
 
 ## Support
