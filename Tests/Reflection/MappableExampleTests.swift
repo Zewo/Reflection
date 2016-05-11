@@ -70,7 +70,7 @@ class MappableTests: XCTestCase {
 extension MappableTests {
     static var allTests: [(String, MappableTests -> () throws -> Void)] {
         return [
-                   ("testMappable", testMappable)
+            ("testMappable", testMappable)
         ]
     }
 }
