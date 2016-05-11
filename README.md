@@ -100,7 +100,7 @@ struct PhoneNumber : Mappable {
     var type: String
 }
 
-let dictionary: MappableDictionary = [
+let dictionary = [
     "firstName" : "Jane",
     "lastName" : "Miller",
     "age" : 54,
@@ -108,7 +108,7 @@ let dictionary: MappableDictionary = [
         "number" : "924-555-0294",
         "type" : "work"
     ] as MappableDictionary
-]
+] as MappableDictionary
 
 let person = try Person(dictionary: dictionary)
 
