@@ -1,5 +1,5 @@
 
-// https://github.com/apple/swift/blob/swift-3.0-branch/lib/IRGen/ValueWitness.h
+// https://github.com/apple/swift/blob/master/lib/IRGen/ValueWitness.h
 struct ValueWitnessTable : PointerType {
     
     var pointer: UnsafePointer<_ValueWitnessTable>
