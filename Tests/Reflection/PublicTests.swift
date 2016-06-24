@@ -136,6 +136,22 @@ class PublicTests: XCTestCase {
         XCTAssert(Reflection.value(subclassedPerson, is: ReferencePerson.self))
         XCTAssert(!Reflection.value(referencePerson, is: SubclassedPerson.self))
     }
+    
+    func testMemoryProperties() {
+        func testMemoryProperties<T>(_ type: T.Type) {
+            XCTAssert(alignof((T.self as Any.Type)) == Swift.alignof(T.self))
+            XCTAssert(sizeof((T.self as Any.Type)) == Swift.sizeof(T.self))
+            XCTAssert(strideof((T.self as Any.Type)) == Swift.strideof(T.self))
+        }
+        testMemoryProperties(Bool)
+        testMemoryProperties(UInt8)
+        testMemoryProperties(UInt16)
+        testMemoryProperties(UInt32)
+        testMemoryProperties(Float)
+        testMemoryProperties(Double)
+        testMemoryProperties(String)
+        testMemoryProperties(Array<Int>)
+    }
 
 }
 
