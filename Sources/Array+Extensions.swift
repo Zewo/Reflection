@@ -1,10 +1,3 @@
-//
-//  Array+Extensions.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/30/16.
-//
-//
 
 protocol UTF8Initializable {
     init?(validatingUTF8: UnsafePointer<CChar>)

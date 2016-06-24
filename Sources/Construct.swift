@@ -19,26 +19,24 @@ private func constructValueType<T>(_ constructor: (Property.Description) throws 
     guard Metadata(type: T.self)?.kind == .struct else { throw Error.notStructOrClass(type: T.self) }
     let pointer = UnsafeMutablePointer<T>(allocatingCapacity: 1)
     defer { pointer.deallocateCapacity(1) }
-    var storage = UnsafeMutablePointer<Int>(pointer)
     var values = [Any]()
-    try constructType(storage: &storage, values: &values, properties: properties(T.self), constructor: constructor)
+    try constructType(storage: UnsafeMutablePointer(pointer), values: &values, properties: properties(T.self), constructor: constructor)
     return pointer.pointee
 }
 
 private func constructReferenceType<T>(_ value: T, constructor: (Property.Description) throws -> Any) throws -> T {
     var copy = value
-    var storage = mutableStorageForInstance(&copy)
     var values = [Any]()
-    try constructType(storage: &storage, values: &values, properties: properties(T.self), constructor: constructor)
+    try constructType(storage: mutableStorageForInstance(&copy), values: &values, properties: properties(T.self), constructor: constructor)
     return copy
 }
 
-private func constructType(storage: inout UnsafeMutablePointer<Int>, values: inout [Any], properties: [Property.Description], constructor: (Property.Description) throws -> Any) throws {
+private func constructType(storage: UnsafeMutablePointer<UInt8>, values: inout [Any], properties: [Property.Description], constructor: (Property.Description) throws -> Any) throws {
     for property in properties {
         var value = try constructor(property)
         guard Reflection.value(value, is: property.type) else { throw Error.valueIsNotType(value: value, type: property.type) }
         values.append(value)
-        storage.consumeBuffer(bufferForInstance(&value))
+        storage.advanced(by: property.offset).consume(buffer: buffer(instance: &value))
     }
 }
 

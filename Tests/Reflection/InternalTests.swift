@@ -43,7 +43,6 @@ class InternalTests: XCTestCase {
             return XCTFail()
         }
         for (label, expected) in zip(metadata.labels, [nil, "name", nil, "age"] as [String?]) {
-            print(label, expected)
             XCTAssert(label == expected)
         }
     }

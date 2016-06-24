@@ -18,8 +18,7 @@ public struct Property {
 public func properties(_ instance: Any) throws -> [Property] {
     let properties = try Reflection.properties(instance.dynamicType)
     var copy = instance
-    var storage = storageForInstance(&copy)
-    return properties.map { nextPropertyForDescription($0, pointer: &storage) }
+    return properties.map { nextPropertyForDescription($0, pointer: storageForInstance(&copy)) }
 }
 
 /// Retrieve property descriptions for `type`
@@ -33,9 +32,8 @@ public func properties(_ type: Any.Type) throws -> [Property.Description] {
     }
 }
 
-private func nextPropertyForDescription(_ description: Property.Description, pointer: inout UnsafePointer<Int>) -> Property {
-    defer { pointer = pointer.advanced(by: wordSizeForType(description.type)) }
-    return Property(key: description.key, value: AnyExistentialContainer(type: description.type, pointer: pointer).any)
+private func nextPropertyForDescription(_ description: Property.Description, pointer: UnsafePointer<UInt8>) -> Property {
+    return Property(key: description.key, value: AnyExistentialContainer(type: description.type, pointer: pointer.advanced(by: description.offset)).any)
 }
 
 private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
