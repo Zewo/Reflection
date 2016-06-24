@@ -76,6 +76,52 @@ class PublicTests: XCTestCase {
         }
     }
     
+    func testConstructFlags() {
+        struct Flags {
+            let x: Bool
+            let y: Bool?
+            let z: (Bool, Bool)
+        }
+        do {
+            let flags: Flags = try construct(dictionary: [
+                                                 "x": false,
+                                                 "y": nil as Optional<Bool>,
+                                                 "z": (true, false)
+                ] as [String : Any])
+            XCTAssert(!flags.x)
+            XCTAssert(flags.y == nil)
+            XCTAssert(flags.z == (true, false))
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+    
+    func testConstructObject() {
+        struct Object {
+            let flag: Bool
+            let pair: (UInt8, UInt8)
+            let float: Float?
+            let integer: Int
+            let string: String
+        }
+        do {
+            let object: Object = try construct(dictionary: [
+                                                               "flag": true,
+                                                               "pair": (UInt8(1), UInt8(2)),
+                                                               "float": Optional(Float(89.0)),
+                                                               "integer": 123,
+                                                               "string": "Hello, world"
+                ] as [String : Any])
+            XCTAssert(object.flag)
+            XCTAssert(object.pair == (1, 2))
+            XCTAssert(object.float == 89.0)
+            XCTAssert(object.integer == 123)
+            XCTAssert(object.string == "Hello, world")
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+    
     func testPropertiesForInstance() {
         var properties = [Property]()
         do {
