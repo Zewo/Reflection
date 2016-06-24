@@ -6,6 +6,7 @@ public enum Error : ErrorProtocol, CustomStringConvertible {
     case valueIsNotType(value: Any, type: Any.Type)
     case instanceHasNoKey(type: Any.Type, key: String)
     case requiredValueMissing(key: String)
+    case unexpected
     
     public var description: String {
         return "Reflection Error: \(caseDescription)"
@@ -18,6 +19,7 @@ public enum Error : ErrorProtocol, CustomStringConvertible {
         case .valueIsNotType(value: let value, type: let type): return "Cannot set value of type \(value.dynamicType) as \(type)"
         case .instanceHasNoKey(type: let type, key: let key): return "Instance of type \(type) has no key \(key)"
         case .requiredValueMissing(key: let key): return "No value found for required key \"\(key)\" in dictionary"
+        case .unexpected: return "An unexpected error hass occured"
         }
     }
     

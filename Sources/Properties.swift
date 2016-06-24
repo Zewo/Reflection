@@ -25,9 +25,9 @@ public func properties(_ instance: Any) throws -> [Property] {
 /// Retrieve property descriptions for `type`
 public func properties(_ type: Any.Type) throws -> [Property.Description] {
     if let nominalType = Metadata.Struct(type: type) {
-        return propertiesForNominalType(nominalType)
+        return try propertiesForNominalType(nominalType)
     } else if let nominalType = Metadata.Class(type: type) {
-        return propertiesForNominalType(nominalType)
+        return try propertiesForNominalType(nominalType)
     } else {
         throw Error.notStructOrClass(type: type)
     }
@@ -38,12 +38,13 @@ private func nextPropertyForDescription(_ description: Property.Description, poi
     return Property(key: description.key, value: AnyExistentialContainer(type: description.type, pointer: pointer).any)
 }
 
-private func propertiesForNominalType<T : NominalType>(_ type: T) -> [Property.Description] {
+private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
+    guard type.nominalTypeDescriptor.numberOfFields != 0 else { return [] }
+    guard let fieldTypes = type.fieldTypes, let fieldOffsets = type.fieldOffsets else {
+        throw Error.unexpected
+    }
     let fieldNames = type.nominalTypeDescriptor.fieldNames
-    let fieldTypes = type.fieldTypes
-    var offset = 0
     return (0..<type.nominalTypeDescriptor.numberOfFields).map { i in
-        defer { offset += wordSizeForType(fieldTypes[i]) }
-        return Property.Description(key: fieldNames[i], type: fieldTypes[i], offset: offset)
+        return Property.Description(key: fieldNames[i], type: fieldTypes[i], offset: fieldOffsets[i])
     }
 }
