@@ -16,16 +16,17 @@ struct NominalTypeDescriptor : PointerType {
     }
     
     var fieldNames: [String] {
-        var pointer: UnsafePointer<CChar> = relativePointer(base: UnsafePointer<Int32>(self.pointer).advanced(by: 3), offset: self.pointer.pointee.fieldNames)
-        return (0..<numberOfFields).map { _ in
-            defer {
-                while pointer.pointee != 0 {
-                    pointer.advance()
-                }
-                pointer.advance()
-            }
-            return String.init(validatingUTF8: pointer) ?? ""
-        }
+        return Array(utf8Strings: relativePointer(base: UnsafePointer<Int32>(self.pointer).advanced(by: 3), offset: self.pointer.pointee.fieldNames))
+//        var pointer: UnsafePointer<CChar> = relativePointer(base: UnsafePointer<Int32>(self.pointer).advanced(by: 3), offset: self.pointer.pointee.fieldNames)
+//        return (0..<numberOfFields).map { _ in
+//            defer {
+//                while pointer.pointee != 0 {
+//                    pointer.advance()
+//                }
+//                pointer.advance()
+//            }
+//            return String.init(cString: pointer)
+//        }
     }
     
     typealias FieldsTypeAccessor = @convention(c) UnsafePointer<Int> -> UnsafePointer<UnsafePointer<Int>>

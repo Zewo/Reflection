@@ -136,7 +136,7 @@ class PublicTests: XCTestCase {
         XCTAssert(Reflection.value(subclassedPerson, is: ReferencePerson.self))
         XCTAssert(!Reflection.value(referencePerson, is: SubclassedPerson.self))
     }
-    
+
 }
 
 extension PublicTests {

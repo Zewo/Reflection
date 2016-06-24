@@ -4,6 +4,12 @@ import XCTest
 
 class InternalTests: XCTestCase {
     
+    func testTupleMetadata() {
+        guard let metadata = Metadata.Tuple(type: (Int, name: String, Float, age: Int).self) else {
+            return XCTFail()
+        }
+    }
+    
     func testShallowMetadata() {
         func testShallowMetadata<T>(type: T.Type, expectedKind: Metadata.Kind) {
             let shallowMetadata = Metadata(type: type)
