@@ -4,12 +4,6 @@ import XCTest
 
 class InternalTests: XCTestCase {
     
-    func testTupleMetadata() {
-        guard let metadata = Metadata.Tuple(type: (Int, name: String, Float, age: Int).self) else {
-            return XCTFail()
-        }
-    }
-    
     func testShallowMetadata() {
         func testShallowMetadata<T>(type: T.Type, expectedKind: Metadata.Kind) {
             let shallowMetadata = Metadata(type: type)
@@ -44,6 +38,16 @@ class InternalTests: XCTestCase {
         }
     }
     
+    func testTupleMetadata() {
+        guard let metadata = Metadata.Tuple(type: (Int, name: String, Float, age: Int).self) else {
+            return XCTFail()
+        }
+        for (label, expected) in zip(metadata.labels, [nil, "name", nil, "age"] as [String?]) {
+            print(label, expected)
+            XCTAssert(label == expected)
+        }
+    }
+    
     func testSuperclass() {
         guard let metadata = Metadata.Class(type: SubclassedPerson.self) else {
             return XCTFail()
@@ -62,6 +66,7 @@ extension InternalTests {
         return [
             ("testShallowMetadata", testShallowMetadata),
             ("testNominalMetadata", testNominalMetadata),
+            ("testTupleMetadata", testTupleMetadata),
             ("testSuperclass", testSuperclass)
         ]
     }
