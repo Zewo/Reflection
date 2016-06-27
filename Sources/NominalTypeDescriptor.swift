@@ -19,7 +19,7 @@ struct NominalTypeDescriptor : PointerType {
         return Array(utf8Strings: relativePointer(base: UnsafePointer<Int32>(self.pointer).advanced(by: 3), offset: self.pointer.pointee.fieldNames))
     }
     
-    typealias FieldsTypeAccessor = @convention(c) UnsafePointer<Int> -> UnsafePointer<UnsafePointer<Int>>
+    typealias FieldsTypeAccessor = @convention(c) (UnsafePointer<Int>) -> UnsafePointer<UnsafePointer<Int>>
     
     var fieldTypesAccessor: FieldsTypeAccessor? {
         let offset = pointer.pointee.fieldTypesAccessor
