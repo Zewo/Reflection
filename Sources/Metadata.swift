@@ -16,5 +16,5 @@ struct Metadata : MetadataType {
 struct _Metadata {}
 
 var is64BitPlatform: Bool {
-    return sizeof(Int) == sizeof(Int64)
+    return sizeof(Int.self) == sizeof(Int64.self)
 }

@@ -26,5 +26,5 @@ extension UnsafeMutablePointer {
 
 func wordSizeForType(_ type: Any.Type) -> Int {
     let size = Metadata(type: type).valueWitnessTable.size
-    return (size / sizeof(Int)) + (size % sizeof(Int) == 0 ? 0 : 1)
+    return (size / sizeof(Int.self)) + (size % sizeof(Int.self) == 0 ? 0 : 1)
 }
