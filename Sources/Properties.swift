@@ -1,4 +1,17 @@
 
+private struct HashedType : Hashable {
+    let hashValue: Int
+    init(_ type: Any.Type) {
+        hashValue = unsafeBitCast(type, to: Int.self)
+    }
+}
+
+private func ==(lhs: HashedType, rhs: HashedType) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+private var cachedProperties = [HashedType : Array<Property.Description>]()
+
 /// An instance property
 public struct Property {
     
@@ -23,10 +36,16 @@ public func properties(_ instance: Any) throws -> [Property] {
 
 /// Retrieve property descriptions for `type`
 public func properties(_ type: Any.Type) throws -> [Property.Description] {
-    if let nominalType = Metadata.Struct(type: type) {
-        return try propertiesForNominalType(nominalType)
+    if let properties = cachedProperties[HashedType(type)] {
+        return properties
+    } else if let nominalType = Metadata.Struct(type: type) {
+        let properties = try propertiesForNominalType(nominalType)
+        cachedProperties[HashedType(type)] = properties
+        return properties
     } else if let nominalType = Metadata.Class(type: type) {
-        return try propertiesForNominalType(nominalType)
+        let properties = try propertiesForNominalType(nominalType)
+        cachedProperties[HashedType(type)] = properties
+        return properties
     } else {
         throw Error.notStructOrClass(type: type)
     }
@@ -46,3 +65,5 @@ private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Pro
         return Property.Description(key: fieldNames[i], type: fieldTypes[i], offset: fieldOffsets[i])
     }
 }
+
+

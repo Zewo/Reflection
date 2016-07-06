@@ -21,7 +21,7 @@ private func constructValueType<T>(_ constructor: (Property.Description) throws 
     defer { pointer.deallocateCapacity(1) }
     var values = [Any]()
     try constructType(storage: UnsafeMutablePointer(pointer), values: &values, properties: properties(T.self), constructor: constructor)
-    return pointer.pointee
+    return pointer.move()
 }
 
 private func constructReferenceType<T>(_ value: T, constructor: (Property.Description) throws -> Any) throws -> T {
