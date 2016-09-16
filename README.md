@@ -33,11 +33,11 @@ let firstName: String = try get("firstName", from: person)
 try set(36, key: "age", for: &person)
 
 // Creates a `Person` from a dictionary
-let friend: Person = try construct(dictionary: ["firstName" : "Sarah", 
-                                                "lastName" : "Gates", 
+let friend: Person = try construct(dictionary: ["firstName" : "Sarah",
+                                                "lastName" : "Gates",
                                                 "age" : 28])
-                                                
-                                                
+
+
 ```
 
 ## Installation
@@ -55,7 +55,7 @@ let package = Package(
 ## Advanced Usage
 
 ```swift
-// `Reflection` can be extended for higher-level packages to do mapping and serializing. 
+// `Reflection` can be extended for higher-level packages to do mapping and serializing.
 // Here is a simple `Mappable` protocol that allows deserializing of arbitrary nested structures.
 
 import Reflection
@@ -71,7 +71,7 @@ protocol Mappable {
 }
 
 extension Mappable {
-    
+
     init(dictionary: MappableDictionary) throws {
         self = try construct { property in
             if let value = dictionary[property.key] {
@@ -85,7 +85,7 @@ extension Mappable {
             }
         }
     }
-    
+
 }
 
 struct Person : Mappable {
@@ -94,7 +94,7 @@ struct Person : Mappable {
     var age: Int
     var phoneNumber: PhoneNumber
 }
- 
+
 struct PhoneNumber : Mappable {
     var number: String
     var type: String

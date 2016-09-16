@@ -1,4 +1,3 @@
-
 public func alignof(_ x: Any.Type) -> Int {
     return Metadata(type: x).valueWitnessTable.align
 }
@@ -12,14 +11,13 @@ public func strideof(_ x: Any.Type) -> Int {
 }
 
 public func alignofValue(_ x: Any) -> Int {
-    return alignof(x.dynamicType)
+    return alignof(type(of: x))
 }
 
 public func sizeofValue(_ x: Any) -> Int {
-    return sizeof(x.dynamicType)
+    return sizeof(type(of: x))
 }
 
 public func strideofValue(_ x: Any) -> Int {
-    return strideof(x.dynamicType)
+    return strideof(type(of: x))
 }
-

@@ -1,10 +1,9 @@
-
 import XCTest
 import Reflection
 
-typealias MappableDictionary = [String : Any]
+typealias MappableDictionary = [String: Any]
 
-enum MappableError : ErrorProtocol {
+enum MappableError : Error {
     case missingRequiredValue(key: String)
 }
 
@@ -13,7 +12,6 @@ protocol Mappable {
 }
 
 extension Mappable {
-    
     init(dictionary: MappableDictionary) throws {
         self = try construct { property in
             if let value = dictionary[property.key] {
@@ -27,25 +25,22 @@ extension Mappable {
             }
         }
     }
-    
 }
 
-class MappableTests: XCTestCase {
-
-    func testMappable() {
-        
+class MappableTests : XCTestCase {
+    func testMappable() throws {
         struct Person : Mappable {
             var firstName: String
             var lastName: String
             var age: Int
             var phoneNumber: PhoneNumber
         }
-        
+
         struct PhoneNumber : Mappable {
             var number: String
             var type: String
         }
-        
+
         let dictionary = [
             "firstName" : "Jane",
             "lastName" : "Miller",
@@ -55,24 +50,21 @@ class MappableTests: XCTestCase {
                 "type" : "work"
             ] as MappableDictionary
         ] as MappableDictionary
-        
-        do {
-            _ = try Person(dictionary: dictionary)
-        } catch {
-            XCTFail(String(error))
-        }
-        
+
+        let person = try Person(dictionary: dictionary)
+
+        XCTAssertEqual(person.firstName, "Jane")
+        XCTAssertEqual(person.lastName, "Miller")
+        XCTAssertEqual(person.age, 54)
+        XCTAssertEqual(person.phoneNumber.number, "924-555-0294")
+        XCTAssertEqual(person.phoneNumber.type, "work")
     }
-    
-    
 }
 
 extension MappableTests {
-    static var allTests: [(String, MappableTests -> () throws -> Void)] {
+    static var allTests: [(String, (MappableTests) -> () throws -> Void)] {
         return [
             ("testMappable", testMappable)
         ]
     }
 }
-
-

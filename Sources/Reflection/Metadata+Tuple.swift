@@ -1,13 +1,4 @@
-//
-//  Metadata+Tuple.swift
-//  Reflection
-//
-//  Created by Bradley Hilton on 5/30/16.
-//
-//
-
 extension Metadata {
-    
     struct Tuple : MetadataType {
         static let kind: Kind? = .tuple
         var pointer: UnsafePointer<Int>
@@ -22,11 +13,10 @@ extension Metadata {
                     pointer.advance()
                     continue
                 }
-                string.append(UnicodeScalar(UInt8(bitPattern: pointer.pointee)))
+                string.append(String(UnicodeScalar(UInt8(bitPattern: pointer.pointee))))
                 pointer.advance()
             }
             return labels
         }
     }
-    
 }

@@ -1,10 +1,8 @@
-
 //https://github.com/apple/swift/blob/swift-3.0-branch/utils/dtrace/runtime.d
 
 extension Metadata {
-    
     static let kind: Kind? = nil
-    
+
     enum Kind {
         case `struct`
         case `enum`
@@ -33,7 +31,4 @@ extension Metadata {
             }
         }
     }
-    
 }
-
-

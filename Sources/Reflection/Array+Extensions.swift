@@ -1,4 +1,3 @@
-
 protocol UTF8Initializable {
     init?(validatingUTF8: UnsafePointer<CChar>)
 }

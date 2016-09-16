@@ -1,7 +1,6 @@
-
 /// Set value for key of an instance
 public func set(_ value: Any, key: String, for instance: inout Any) throws {
-    let property = try propertyForType(instance.dynamicType, withName: key)
+    let property = try propertyForType(type(of: instance), withName: key)
     try setValue(value, forKey: key, property: property, storage: mutableStorageForInstance(&instance))
 }
 
@@ -18,12 +17,12 @@ public func set<T>(_ value: Any, key: String, for instance: inout T) throws {
 }
 
 private func propertyForType(_ type: Any.Type, withName key: String) throws -> Property.Description {
-    guard let property = try properties(type).filter({ $0.key == key }).first else { throw Error.instanceHasNoKey(type: type, key: key) }
+    guard let property = try properties(type).filter({ $0.key == key }).first else { throw ReflectionError.instanceHasNoKey(type: type, key: key) }
     return property
 }
 
-private func setValue(_ value: Any, forKey key: String, property: Property.Description, storage: UnsafeMutablePointer<UInt8>) throws {
-    guard Reflection.value(value, is: property.type) else { throw Error.valueIsNotType(value: value, type: property.type) }
-    var copy: Any = value
+private func setValue(_ val: Any, forKey key: String, property: Property.Description, storage: UnsafeMutablePointer<UInt8>) throws {
+    guard value(val, is: property.type) else { throw ReflectionError.valueIsNotType(value: val, type: property.type) }
+    var copy: Any = val
     storage.advanced(by: property.offset).consume(buffer: buffer(instance: &copy))
 }
