@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "78D4B6C61DA68941005B0764"
-               BuildableName = "Reflection tvOS.framework"
+               BuildableName = "Reflection.framework"
                BlueprintName = "Reflection tvOS"
                ReferencedContainer = "container:Reflection.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "78D4B6C61DA68941005B0764"
-            BuildableName = "Reflection tvOS.framework"
+            BuildableName = "Reflection.framework"
             BlueprintName = "Reflection tvOS"
             ReferencedContainer = "container:Reflection.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "78D4B6C61DA68941005B0764"
-            BuildableName = "Reflection tvOS.framework"
+            BuildableName = "Reflection.framework"
             BlueprintName = "Reflection tvOS"
             ReferencedContainer = "container:Reflection.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "78D4B6C61DA68941005B0764"
-            BuildableName = "Reflection tvOS.framework"
+            BuildableName = "Reflection.framework"
             BlueprintName = "Reflection tvOS"
             ReferencedContainer = "container:Reflection.xcodeproj">
          </BuildableReference>
