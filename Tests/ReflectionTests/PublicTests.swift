@@ -42,6 +42,7 @@ func == (lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
 }
 
 public class PublicTests : XCTestCase {
+    
     func testConstructType() throws {
         for _ in 0 ..< 1000 {
             let person: Person = try construct {
