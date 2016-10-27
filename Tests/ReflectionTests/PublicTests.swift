@@ -127,6 +127,9 @@ public class PublicTests : XCTestCase {
         let person = Person(firstName: "Brad", lastName: "Hilton", age: 29)
         let firstName: String = try get("firstName", from: person)
         XCTAssert(person.firstName == firstName)
+        let referencePerson = ReferencePerson(firstName: "Brad", lastName: "Hilton", age: 29)
+        let referenceFirstName: String = try get("firstName", from: referencePerson)
+        XCTAssert(referencePerson.firstName == referenceFirstName)
     }
 
     func testValueIs() {
