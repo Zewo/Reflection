@@ -169,13 +169,14 @@ public class PublicTests : XCTestCase {
     
     func testCString() {
         do {
-            let name = "Brad".withCString { return String(cString: $0) }
-            let _ = ["name" : name]
-            let _: Person = try construct(dictionary: [
-                "firstName": name,
+            let firstName = "Brad".withCString { return String(cString: $0) }
+            let indirectStorage = ["firstName" : firstName]
+            let person: Person = try construct(dictionary: [
+                "firstName": firstName,
                 "lastName": "Hilton",
                 "age": 27
-            ])
+                ])
+            XCTAssert(indirectStorage["firstName"]! == person.firstName)
         } catch {}
     }
     
