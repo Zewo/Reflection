@@ -166,6 +166,19 @@ public class PublicTests : XCTestCase {
         testMemoryProperties(String.self)
         testMemoryProperties(Array<Int>.self)
     }
+    
+    func testCString() {
+        do {
+            let name = "Brad".withCString { return String(cString: $0) }
+            let _ = ["name" : name]
+            let _: Person = try construct(dictionary: [
+                "firstName": name,
+                "lastName": "Hilton",
+                "age": 27
+            ])
+        } catch {}
+    }
+    
 }
 
 extension PublicTests {
