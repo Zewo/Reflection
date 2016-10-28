@@ -1,5 +1,5 @@
 import XCTest
-@testable import Reflection
+import Reflection
 
 struct Person : Equatable {
     var firstName: String
@@ -193,6 +193,7 @@ extension PublicTests {
             ("testValueForKeyOfInstance", testValueForKeyOfInstance),
             ("testValueIs", testValueIs),
             ("testMemoryProperties", testMemoryProperties),
+            ("testCString", testCString)
         ]
     }
 }
