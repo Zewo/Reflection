@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Zewo/Reflection"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Brad Hilton" => "brad@skyvive.com" }
-  s.source       = { :git => "https://github.com/Zewo/Reflection", :tag => "0.14.2" }
+  s.source       = { :git => "https://github.com/Zewo/Reflection.git", :tag => "0.14.2" }
 
   s.ios.deployment_target = "8.0"
   s.tvos.deployment_target = "9.0"
