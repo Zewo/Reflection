@@ -1,24 +1,20 @@
-func mutableStorageForInstance(_ instance: inout Any) -> UnsafeMutableRawPointer {
-    return UnsafeMutableRawPointer(mutating: storageForInstance(&instance))
-}
-
-func storageForInstance(_ instance: inout Any) -> UnsafeRawPointer {
-    return withUnsafePointer(to: &instance) { pointer in
-        if type(of: instance) is AnyClass {
-            return UnsafeRawPointer(bitPattern: UnsafePointer<Int>(pointer).pointee)!
-        } else if sizeofValue(instance) <= 3 * sizeof(Int.self) {
-            return UnsafeRawPointer(pointer)
-        } else {
-            return UnsafeRawPointer(bitPattern: UnsafePointer<Int>(pointer).pointee)!
-        }
+extension AnyExtensions {
+    
+    mutating func mutableStorage() -> UnsafeMutableRawPointer {
+        return Reflection.mutableStorage(instance: &self)
     }
+    
+    mutating func storage() -> UnsafeRawPointer {
+        return Reflection.storage(instance: &self)
+    }
+    
 }
 
-func mutableStorageForInstance<T>(_ instance: inout T) -> UnsafeMutableRawPointer {
-    return UnsafeMutableRawPointer(mutating: storageForInstance(&instance))
+func mutableStorage<T>(instance: inout T) -> UnsafeMutableRawPointer {
+    return UnsafeMutableRawPointer(mutating: storage(instance: &instance))
 }
 
-func storageForInstance<T>(_ instance: inout T) -> UnsafeRawPointer {
+func storage<T>(instance: inout T) -> UnsafeRawPointer {
     return withUnsafePointer(to: &instance) { pointer in
         if type(of: instance) is AnyClass {
             return UnsafeRawPointer(bitPattern: UnsafePointer<Int>(pointer).pointee)!

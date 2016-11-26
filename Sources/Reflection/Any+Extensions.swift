@@ -18,6 +18,10 @@ extension AnyExtensions {
         return try Reflection.construct(self, dictionary: dictionary)
     }
     
+    static func value(from pointer: UnsafeRawPointer) -> Any {
+        return pointer.assumingMemoryBound(to: self).pointee
+    }
+    
     func write(to pointer: UnsafeMutableRawPointer) {
         pointer.assumingMemoryBound(to: type(of: self)).initialize(to: self)
     }
