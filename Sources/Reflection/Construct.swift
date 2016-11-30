@@ -26,9 +26,8 @@ private func constructType(storage: UnsafeMutableRawPointer, values: inout [Any]
     for property in properties {
         do {
             let value = try constructor(property)
-            guard Reflection.value(value, is: property.type) else { throw ReflectionError.valueIsNotType(value: value, type: property.type) }
             values.append(value)
-            extensions(of: value).write(to: storage.advanced(by: property.offset))
+            try property.write(value, to: storage)
         } catch {
             errors.append(error)
         }

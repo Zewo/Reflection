@@ -18,12 +18,19 @@ extension AnyExtensions {
         return try Reflection.construct(self, dictionary: dictionary)
     }
     
-    static func value(from pointer: UnsafeRawPointer) -> Any {
-        return pointer.assumingMemoryBound(to: self).pointee
+    static func isValueTypeOrSubtype(_ value: Any) -> Bool {
+        return value is Self
     }
     
-    func write(to pointer: UnsafeMutableRawPointer) {
-        pointer.assumingMemoryBound(to: type(of: self)).initialize(to: self)
+    static func value(from storage: UnsafeRawPointer) -> Any {
+        return storage.assumingMemoryBound(to: self).pointee
+    }
+    
+    static func write(_ value: Any, to storage: UnsafeMutableRawPointer) throws {
+        guard let this = value as? Self else {
+            throw ReflectionError.valueIsNotType(value: value, type: self)
+        }
+        storage.assumingMemoryBound(to: self).initialize(to: this)
     }
     
 }
