@@ -243,6 +243,7 @@ extension PublicTests {
             ("testConstructFlags", testConstructFlags),
             ("testConstructObject", testConstructObject),
             ("testPropertiesForInstance", testPropertiesForInstance),
+            ("testPropertiesForSubclass", testPropertiesForSubclass),
             ("testSetValueForKeyOfInstance", testSetValueForKeyOfInstance),
             ("testValueForKeyOfInstance", testValueForKeyOfInstance),
             ("testValueIs", testValueIs),
