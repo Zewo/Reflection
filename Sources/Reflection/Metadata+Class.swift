@@ -12,6 +12,11 @@ extension Metadata {
             guard let superclass = pointer.pointee.superclass else { return nil }
             return Metadata.Class(type: superclass)
         }
+        
+        func properties() throws -> [Property.Description] {
+            guard let superclass = superclass else { return [] }
+            return try superclass.properties() + fetchAndSaveProperties(nominalType: self, hashedType: HashedType(pointer))
+        }
 
     }
 }
