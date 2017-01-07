@@ -21,7 +21,7 @@ struct Person {
 }
 
 // Reflects the instance properties of type `Person`
-let properties = try properties(Person)
+let props = try properties(Person.self)
 
 var person = Person(firstName: "John", lastName: "Smith", age: 35)
 
