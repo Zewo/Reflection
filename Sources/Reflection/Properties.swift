@@ -49,10 +49,12 @@ private func nextProperty(description: Property.Description, storage: UnsafeRawP
 public func properties(_ type: Any.Type) throws -> [Property.Description] {
     let hashedType = HashedType(type)
     if let properties = cachedProperties[hashedType] {
+        // When cached, only nominal type properties are returned
         return properties
     } else if let nominalType = Metadata.Struct(type: type) {
         return try fetchAndSaveProperties(nominalType: nominalType, hashedType: hashedType)
     } else if let nominalType = Metadata.Class(type: type) {
+        // This will return all properties (nominal and super), but only cache nominal
         return try nominalType.properties()
     } else {
         throw ReflectionError.notStruct(type: type)
