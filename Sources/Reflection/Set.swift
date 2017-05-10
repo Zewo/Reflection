@@ -14,7 +14,7 @@ public func set<T>(_ value: Any, key: String, for instance: inout T) throws {
     try property(type: T.self, key: key).write(value, to: mutableStorage(instance: &instance))
 }
 
-/// Set value for specified type. For cases when the object is casted as any but Type is known
+/// Set value for specified type. For cases when the object is casted as Any but Type is known
 public func set<T>(_ value: Any, key: String, type: Any.Type, for instance: inout T) throws {
     try property(type: type, key: key).write(value, to: mutableStorage(instance: &instance, type: type))
 }
