@@ -16,7 +16,7 @@ func mutableStorage<T>(instance: inout T) -> UnsafeMutableRawPointer {
 
 func mutableStorage<T>(instance: inout T, type: Any.Type) -> UnsafeMutableRawPointer {
     return UnsafeMutableRawPointer(mutating: storage(instance: &instance, type: type))
-}
+}   
 
 func storage<T>(instance: inout T) -> UnsafeRawPointer {
     return storage(instance: &instance, type: type(of: instance))
