@@ -1,7 +1,7 @@
 /// Set value for key of an instance
-public func set(_ value: Any, key: String, for instance: inout Any, instanceType: Any.Type? = nil) throws {
-    let type = instanceType ?? type(of: instance)
-    try property(type: type(of: instance), key: key).write(value, to: mutableStorage(instance: &instance, type: type))
+public func set(_ value: Any, key: String, for instance: inout Any) throws {
+    let type = type(of: instance)
+    try property(type: type, key: key).write(value, to: mutableStorage(instance: &instance, type: type))
 }
 
 /// Set value for key of an instance

@@ -31,4 +31,3 @@ func storage<T>(instance: inout T, type: Any.Type) -> UnsafeRawPointer {
         }
     }
 }
-
