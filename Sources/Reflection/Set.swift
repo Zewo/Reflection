@@ -1,6 +1,7 @@
 /// Set value for key of an instance
-public func set(_ value: Any, key: String, for instance: inout Any) throws {
-    try property(type: type(of: instance), key: key).write(value, to: mutableStorage(instance: &instance))
+public func set(_ value: Any, key: String, for instance: inout Any, instanceType: Any.Type? = nil) throws {
+    let type = instanceType ?? type(of: instance)
+    try property(type: type(of: instance), key: key).write(value, to: mutableStorage(instance: &instance, type: type))
 }
 
 /// Set value for key of an instance
@@ -10,8 +11,8 @@ public func set(_ value: Any, key: String, for instance: AnyObject) throws {
 }
 
 /// Set value for key of an instance
-public func set<T>(_ value: Any, key: String, for instance: inout T, instanceType: Any.Type = T.self) throws {
-    try property(type: instanceType, key: key).write(value, to: mutableStorage(instance: &instance, type: instanceType))
+public func set<T>(_ value: Any, key: String, for instance: inout T) throws {
+    try property(type: T.self, key: key).write(value, to: mutableStorage(instance: &instance))
 }
 
 private func property(type: Any.Type, key: String) throws -> Property.Description {
