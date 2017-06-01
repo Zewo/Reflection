@@ -11,12 +11,20 @@ extension AnyExtensions {
 }
 
 func mutableStorage<T>(instance: inout T) -> UnsafeMutableRawPointer {
-    return UnsafeMutableRawPointer(mutating: storage(instance: &instance))
+    return mutableStorage(instance: &instance, type: type(of: instance))
 }
 
+func mutableStorage<T>(instance: inout T, type: Any.Type) -> UnsafeMutableRawPointer {
+    return UnsafeMutableRawPointer(mutating: storage(instance: &instance, type: type))
+}   
+
 func storage<T>(instance: inout T) -> UnsafeRawPointer {
+    return storage(instance: &instance, type: type(of: instance))
+}
+
+func storage<T>(instance: inout T, type: Any.Type) -> UnsafeRawPointer {
     return withUnsafePointer(to: &instance) { pointer in
-        if type(of: instance) is AnyClass {
+        if type is AnyClass {
             return UnsafeRawPointer(bitPattern: UnsafePointer<Int>(pointer).pointee)!
         } else {
             return UnsafeRawPointer(pointer)
