@@ -15,7 +15,7 @@ extension AnyExtensions {
     }
     
     static func construct(dictionary: [String: Any]) throws -> Any {
-        return try Reflection.construct(self, dictionary: dictionary)
+        return try Reflection.constructGeneric(self, dictionary: dictionary)
     }
     
     static func isValueTypeOrSubtype(_ value: Any) -> Bool {
