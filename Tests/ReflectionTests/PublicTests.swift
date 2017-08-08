@@ -35,7 +35,20 @@ class ReferencePerson : Equatable {
     }
 }
 
-class SubclassedPerson : ReferencePerson {}
+class SubclassedPerson : ReferencePerson {
+    var hobby: String
+    
+    required init() {
+        self.hobby = ""
+        super.init()
+    }
+    
+    init(firstName: String, lastName: String, age: Int, hobby: String) {
+        self.hobby = hobby
+        super.init(firstName: firstName, lastName: lastName, age: age)
+    }
+    
+}
 
 func == (lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
     return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName && lhs.age == rhs.age
@@ -115,6 +128,22 @@ public class PublicTests : XCTestCase {
         XCTAssert(person.firstName == firstName)
         XCTAssert(person.lastName == lastName)
         XCTAssert(person.age == age)
+    }
+    
+    func testPropertiesForSubclass() throws {
+        var props: [Property] = []
+        let person = SubclassedPerson(firstName: "Brad", lastName: "Hilton", age: 27, hobby: "Golf")
+        props = try properties(person)
+        guard props.count == 4 else {
+            return XCTFail("Unexpected number of properties")
+        }
+        guard let firstName = props[0].value as? String, let lastName = props[1].value as? String, let age = props[2].value as? Int, let hobby = props[3].value as? String else {
+            return XCTFail("Unexpected properties")
+        }
+        XCTAssert(person.firstName == firstName)
+        XCTAssert(person.lastName == lastName)
+        XCTAssert(person.age == age)
+        XCTAssert(person.hobby == hobby)
     }
 
     func testSetValueForKeyOfInstance() throws {
@@ -214,6 +243,7 @@ extension PublicTests {
             ("testConstructFlags", testConstructFlags),
             ("testConstructObject", testConstructObject),
             ("testPropertiesForInstance", testPropertiesForInstance),
+            ("testPropertiesForSubclass", testPropertiesForSubclass),
             ("testSetValueForKeyOfInstance", testSetValueForKeyOfInstance),
             ("testValueForKeyOfInstance", testValueForKeyOfInstance),
             ("testValueIs", testValueIs),
