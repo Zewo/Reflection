@@ -1,10 +1,14 @@
-/// Create a struct with a constructor method. Return a value of `property.type` for each property.
-public func construct<T>(_ type: T.Type = T.self, constructor: (Property.Description) throws -> Any) throws -> T {
+internal func constructGeneric<T>(_ type: T.Type = T.self, constructor: (Property.Description) throws -> Any) throws -> T {
     if Metadata(type: T.self)?.kind == .struct {
         return try constructValueType(constructor)
     } else {
         throw ReflectionError.notStruct(type: T.self)
     }
+}
+
+/// Create a struct with a constructor method. Return a value of `property.type` for each property.
+public func construct<T>(_ type: T.Type = T.self, constructor: (Property.Description) throws -> Any) throws -> T {
+	return try constructGeneric(type, constructor: constructor)
 }
 
 /// Create a struct with a constructor method. Return a value of `property.type` for each property.
@@ -37,9 +41,13 @@ private func constructType(storage: UnsafeMutableRawPointer, values: inout [Any]
     }
 }
 
+internal func constructGeneric<T>(_ type: T.Type = T.self, dictionary: [String: Any]) throws -> T {
+	return try construct(constructor: constructorForDictionary(dictionary))
+}
+
 /// Create a struct from a dictionary.
 public func construct<T>(_ type: T.Type = T.self, dictionary: [String: Any]) throws -> T {
-    return try construct(constructor: constructorForDictionary(dictionary))
+    return try constructGeneric(type, dictionary: dictionary)
 }
 
 /// Create a struct from a dictionary.
