@@ -1,6 +1,6 @@
 /// Set value for key of an instance
 public func set(_ value: Any, key: String, for instance: inout Any) throws {
-    let type = type(of: instance)
+    let type = Swift.type(of: instance)
     try property(type: type, key: key).write(value, to: mutableStorage(instance: &instance, type: type))
 }
 
