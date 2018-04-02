@@ -3,8 +3,12 @@ extension Metadata {
 
         static let kind: Kind? = .class
         var pointer: UnsafePointer<_Metadata._Class>
+        
+        var nominalTypeDescriptor: NominalTypeDescriptor {
+            return pointer.withMemoryRebound(to: NominalTypeDescriptor.self, capacity: 15, { $0[nominalTypeDescriptorLocation] })
+        }
 
-        var nominalTypeDescriptorOffsetLocation: Int {
+        var nominalTypeDescriptorLocation: Int {
             return is64BitPlatform ? 8 : 11
         }
 

@@ -3,6 +3,23 @@ import XCTest
 
 public class InternalTests : XCTestCase {
     
+    func testDumbedDownTest() {
+        struct NominalTypeDescriptor {
+            let something: Int32
+            let numberOfProperties: Int32
+        }
+        
+        struct StructMetadata {
+            let kind: Int
+            let nominalTypeDescriptor: UnsafePointer<NominalTypeDescriptor>
+        }
+        
+        let type: Any.Type = Person.self
+        let numberOfProperties = unsafeBitCast(type, to: UnsafePointer<StructMetadata>.self).pointee.nominalTypeDescriptor.pointee.numberOfProperties
+        print(numberOfProperties)
+    }
+    
+    
     func testShallowMetadata() {
         func testShallowMetadata<T>(type: T.Type, expectedKind: Metadata.Kind) {
             let shallowMetadata = Metadata(type: type)

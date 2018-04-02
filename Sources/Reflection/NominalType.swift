@@ -1,13 +1,8 @@
 protocol NominalType : MetadataType {
-    var nominalTypeDescriptorOffsetLocation: Int { get }
+    var nominalTypeDescriptor: NominalTypeDescriptor { get }
 }
 
 extension NominalType {
-    var nominalTypeDescriptor: NominalTypeDescriptor {
-        let pointer = UnsafePointer<Int>(self.pointer)
-        let base = pointer.advanced(by: nominalTypeDescriptorOffsetLocation)
-        return NominalTypeDescriptor(pointer: relativePointer(base: base, offset: base.pointee))
-    }
 
     var fieldTypes: [Any.Type]? {
         guard let function = nominalTypeDescriptor.fieldTypesAccessor else { return nil }

@@ -29,14 +29,6 @@ struct _ValueWitnessTable {
     let initializeWithCopy: Int
     let assignWithCopy: Int
     let initializeBufferWithTake: Int
-    let initializeWithTake: Int
-    let assignWithTake: Int
-    let allocateBuffer: Int
-    let initializeBufferWithTakeOrBuffer: Int
-    let destroyArray: Int
-    let initializeArrayWithCopy: Int
-    let initializeArrayWithTakeFrontToBack: Int
-    let initializeArrayWithTakeBackToFront: Int
     let size: Int
     let align: Int
     let stride: Int
