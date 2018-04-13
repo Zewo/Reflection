@@ -51,21 +51,19 @@ public func properties(_ type: Any.Type) throws -> [Property.Description] {
     if let properties = cachedProperties[hashedType] {
         return properties
     } else if let nominalType = Metadata.Struct(type: type) {
-        return try fetchAndSaveProperties(nominalType: nominalType, hashedType: hashedType)
+        let properties = try propertiesForNominalType(nominalType)
+        cachedProperties[hashedType] = properties
+        return properties
     } else if let nominalType = Metadata.Class(type: type) {
-        return try nominalType.properties()
+        let properties = try nominalType.properties()
+        cachedProperties[hashedType] = properties
+        return properties
     } else {
         throw ReflectionError.notStruct(type: type)
     }
 }
 
-func fetchAndSaveProperties<T : NominalType>(nominalType: T, hashedType: HashedType) throws -> [Property.Description] {
-    let properties = try propertiesForNominalType(nominalType)
-    cachedProperties[hashedType] = properties
-    return properties
-}
-
-private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
+internal func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
     guard type.nominalTypeDescriptor.numberOfFields != 0 else { return [] }
     guard let fieldTypes = type.fieldTypes, let fieldOffsets = type.fieldOffsets else {
         throw ReflectionError.unexpected
