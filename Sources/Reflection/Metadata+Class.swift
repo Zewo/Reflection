@@ -17,12 +17,12 @@ extension Metadata {
             return Metadata.Class(type: superclass)
         }
         
-        func properties() throws -> [Property.Description] {
-            let properties = try fetchAndSaveProperties(nominalType: self, hashedType: HashedType(pointer))
+        func properties(anyType: Any.Type) throws -> [Property.Description] {
+            let properties = try fetchAndSaveProperties(nominalType: self, hashedType: HashedType(pointer), anyType: anyType)
             guard let superclass = superclass, String(describing: unsafeBitCast(superclass.pointer, to: Any.Type.self)) != "SwiftObject" else {
                 return properties
             }
-            return try superclass.properties() + properties
+            return try superclass.properties(anyType: anyType) + properties
         }
 
     }

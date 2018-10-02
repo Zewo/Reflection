@@ -3,11 +3,18 @@ protocol NominalType : MetadataType {
 }
 
 extension NominalType {
-
-    var fieldTypes: [Any.Type]? {
-        guard let function = nominalTypeDescriptor.fieldTypesAccessor else { return nil }
-        return (0..<nominalTypeDescriptor.numberOfFields).map {
-            return unsafeBitCast(function(UnsafePointer<Int>(pointer)).advanced(by: $0).pointee, to: Any.Type.self)
+    
+    func fieldNamesAndTypes(for type: Any.Type) -> [(String, Any.Type)]? {
+        return (0..<nominalTypeDescriptor.numberOfFields).map { index in
+            var context: (String, Any.Type) = ("", Any.self)
+            _getFieldAt(type, index, { name, type, context in
+                let context = context.assumingMemoryBound(to: (String, Any.Type).self)
+                context.pointee = (
+                    String(cString: name),
+                    unsafeBitCast(type, to: Any.Type.self)
+                )
+            }, &context)
+            return context
         }
     }
 
@@ -15,7 +22,8 @@ extension NominalType {
         let vectorOffset = nominalTypeDescriptor.fieldOffsetVector
         guard vectorOffset != 0 else { return nil }
         return (0..<nominalTypeDescriptor.numberOfFields).map {
-            return UnsafePointer<Int>(pointer)[vectorOffset + $0]
+            return Int(UnsafePointer<Int32>(pointer)[vectorOffset + $0 + 2])
         }
     }
+    
 }

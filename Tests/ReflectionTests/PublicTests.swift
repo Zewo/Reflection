@@ -129,22 +129,6 @@ public class PublicTests : XCTestCase {
         XCTAssert(person.lastName == lastName)
         XCTAssert(person.age == age)
     }
-    
-    func testPropertiesForSubclass() throws {
-        var props: [Property] = []
-        let person = SubclassedPerson(firstName: "Brad", lastName: "Hilton", age: 27, hobby: "Golf")
-        props = try properties(person)
-        guard props.count == 4 else {
-            return XCTFail("Unexpected number of properties")
-        }
-        guard let firstName = props[0].value as? String, let lastName = props[1].value as? String, let age = props[2].value as? Int, let hobby = props[3].value as? String else {
-            return XCTFail("Unexpected properties")
-        }
-        XCTAssert(person.firstName == firstName)
-        XCTAssert(person.lastName == lastName)
-        XCTAssert(person.age == age)
-        XCTAssert(person.hobby == hobby)
-    }
 
     func testSetValueForKeyOfInstance() throws {
         var person = Person(firstName: "Brad", lastName: "Hilton", age: 27)
@@ -156,15 +140,11 @@ public class PublicTests : XCTestCase {
         let person = Person(firstName: "Brad", lastName: "Hilton", age: 29)
         let firstName: String = try get("firstName", from: person)
         XCTAssert(person.firstName == firstName)
-        let referencePerson = ReferencePerson(firstName: "Brad", lastName: "Hilton", age: 29)
-        let referenceFirstName: String = try get("firstName", from: referencePerson)
-        XCTAssert(referencePerson.firstName == referenceFirstName)
         func testAnonymousValue(value: Any) throws {
             let firstName: String = try get("firstName", from: value)
             XCTAssert(person.firstName == firstName)
         }
         try testAnonymousValue(value: person)
-        try testAnonymousValue(value: referencePerson)
     }
 
     func testValueIs() {
@@ -228,7 +208,7 @@ public class PublicTests : XCTestCase {
                 .requiredValueMissing(key: "lastName"),
                 .requiredValueMissing(key: "age")
             ]
-            XCTAssertEqual(constructionErrors.errors.flatMap { $0 as? ReflectionError }, expectedErrors)
+            XCTAssertEqual(constructionErrors.errors.compactMap { $0 as? ReflectionError }, expectedErrors)
         } catch {
             XCTFail()
         }
@@ -243,7 +223,6 @@ extension PublicTests {
             ("testConstructFlags", testConstructFlags),
             ("testConstructObject", testConstructObject),
             ("testPropertiesForInstance", testPropertiesForInstance),
-            ("testPropertiesForSubclass", testPropertiesForSubclass),
             ("testSetValueForKeyOfInstance", testSetValueForKeyOfInstance),
             ("testValueForKeyOfInstance", testValueForKeyOfInstance),
             ("testValueIs", testValueIs),

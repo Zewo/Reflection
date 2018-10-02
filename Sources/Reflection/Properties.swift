@@ -51,27 +51,26 @@ public func properties(_ type: Any.Type) throws -> [Property.Description] {
     if let properties = cachedProperties[hashedType] {
         return properties
     } else if let nominalType = Metadata.Struct(type: type) {
-        return try fetchAndSaveProperties(nominalType: nominalType, hashedType: hashedType)
-    } else if let nominalType = Metadata.Class(type: type) {
-        return try nominalType.properties()
+        return try fetchAndSaveProperties(nominalType: nominalType, hashedType: hashedType, anyType: type)
     } else {
         throw ReflectionError.notStruct(type: type)
     }
 }
 
-func fetchAndSaveProperties<T : NominalType>(nominalType: T, hashedType: HashedType) throws -> [Property.Description] {
-    let properties = try propertiesForNominalType(nominalType)
+func fetchAndSaveProperties<T : NominalType>(nominalType: T, hashedType: HashedType, anyType: Any.Type) throws -> [Property.Description] {
+    let properties = try propertiesForNominalType(nominalType: nominalType, anyType: anyType)
     cachedProperties[hashedType] = properties
     return properties
 }
 
-private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
-    guard type.nominalTypeDescriptor.numberOfFields != 0 else { return [] }
-    guard let fieldTypes = type.fieldTypes, let fieldOffsets = type.fieldOffsets else {
+private func propertiesForNominalType<T : NominalType>(nominalType: T, anyType: Any.Type) throws -> [Property.Description] {
+    guard nominalType.nominalTypeDescriptor.numberOfFields != 0 else { return [] }
+    guard let fieldNamesAndTypes = nominalType.fieldNamesAndTypes(for: anyType), let fieldOffsets = nominalType.fieldOffsets else {
         throw ReflectionError.unexpected
     }
-    let fieldNames = type.nominalTypeDescriptor.fieldNames
-    return (0..<type.nominalTypeDescriptor.numberOfFields).map { i in
+    let fieldNames = fieldNamesAndTypes.map { $0.0 }
+    let fieldTypes = fieldNamesAndTypes.map { $0.1 }
+    return (0..<nominalType.nominalTypeDescriptor.numberOfFields).map { i in
         return Property.Description(key: fieldNames[i], type: fieldTypes[i], offset: fieldOffsets[i])
     }
 }

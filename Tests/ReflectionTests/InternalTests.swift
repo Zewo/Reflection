@@ -40,17 +40,9 @@ public class InternalTests : XCTestCase {
     func testNominalMetadata() {
         func testMetadata<T : NominalType>(metadata: T, expectedName: String) {
             XCTAssert(metadata.nominalTypeDescriptor.numberOfFields == 3)
-            XCTAssert(metadata.nominalTypeDescriptor.fieldNames == ["firstName", "lastName", "age"])
-            XCTAssertNotNil(metadata.nominalTypeDescriptor.fieldTypesAccessor)
-            XCTAssert(metadata.fieldTypes! == [String.self, String.self, Int.self] as [Any.Type])
         }
         if let metadata = Metadata.Struct(type: Person.self) {
             testMetadata(metadata: metadata, expectedName: "Person")
-        } else {
-            XCTFail()
-        }
-        if let metadata = Metadata.Class(type: ReferencePerson.self) {
-            testMetadata(metadata: metadata, expectedName: "ReferencePerson")
         } else {
             XCTFail()
         }
