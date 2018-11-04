@@ -2,9 +2,9 @@ import XCTest
 import Reflection
 
 struct Person : Equatable {
-    var firstName: String
+    var firstName: String?
     var lastName: String
-    var age: Int
+    var age: Int?
 
     init(firstName: String, lastName: String, age: Int) {
         self.firstName = firstName
@@ -133,7 +133,14 @@ public class PublicTests : XCTestCase {
     func testSetValueForKeyOfInstance() throws {
         var person = Person(firstName: "Brad", lastName: "Hilton", age: 27)
         try set("Lawrence", key: "firstName", for: &person)
-        XCTAssert(person.firstName == "Lawrence")
+        XCTAssertEqual(person.firstName, "Lawrence")
+        try set(nil, key: "firstName", for: &person)
+        XCTAssertNil(person.firstName)
+        XCTAssertEqual(person.age, 27)
+        try set(nil, key: "age", for: &person)
+        XCTAssertNil(person.age)
+        try set(28, key: "age", for: &person)
+        XCTAssertEqual(person.age, 28)
     }
 
     func testValueForKeyOfInstance() throws {
@@ -204,9 +211,7 @@ public class PublicTests : XCTestCase {
             XCTFail()
         } catch let constructionErrors as ConstructionErrors {
             let expectedErrors: [ReflectionError] = [
-                .requiredValueMissing(key: "firstName"),
                 .requiredValueMissing(key: "lastName"),
-                .requiredValueMissing(key: "age")
             ]
             XCTAssertEqual(constructionErrors.errors.compactMap { $0 as? ReflectionError }, expectedErrors)
         } catch {
