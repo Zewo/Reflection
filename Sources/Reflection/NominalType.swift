@@ -22,7 +22,7 @@ extension NominalType {
         let vectorOffset = nominalTypeDescriptor.fieldOffsetVector
         guard vectorOffset != 0 else { return nil }
         return (0..<nominalTypeDescriptor.numberOfFields).map {
-            return Int(UnsafePointer<Int32>(pointer)[vectorOffset + $0 + 2])
+            return Int(UnsafePointer<Int32>(pointer)[vectorOffset + $0 + (is64BitPlatform ? 2 : 0)])
         }
     }
     
