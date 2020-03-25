@@ -1,4 +1,4 @@
-# Reflection
+# Reflection [DEPRECATED]
 
 [![Swift][swift-badge]][swift-url]
 [![License][mit-badge]][mit-url]
