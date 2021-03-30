@@ -1,6 +1,6 @@
 public enum ReflectionError : Error, CustomStringConvertible, Equatable {
     case notStruct(type: Any.Type)
-    case valueIsNotType(value: Any, type: Any.Type)
+    case valueIsNotType(value: Any?, type: Any.Type)
     case instanceHasNoKey(type: Any.Type, key: String)
     case requiredValueMissing(key: String)
     case unexpected

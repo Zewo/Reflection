@@ -22,7 +22,7 @@ extension AnyExtensions {
         return storage.assumingMemoryBound(to: self).pointee
     }
     
-    static func write(_ value: Any, to storage: UnsafeMutableRawPointer) throws {
+    static func write(_ value: Any?, to storage: UnsafeMutableRawPointer) throws {
         guard let this = value as? Self else {
             throw ReflectionError.valueIsNotType(value: value, type: self)
         }

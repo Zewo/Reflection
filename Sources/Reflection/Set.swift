@@ -1,17 +1,17 @@
 /// Set value for key of an instance
-public func set(_ value: Any, key: String, for instance: inout Any) throws {
+public func set(_ value: Any?, key: String, for instance: inout Any) throws {
     let type = Swift.type(of: instance)
     try property(type: type, key: key).write(value, to: mutableStorage(instance: &instance, type: type))
 }
 
 /// Set value for key of an instance
-public func set(_ value: Any, key: String, for instance: AnyObject) throws {
+public func set(_ value: Any?, key: String, for instance: AnyObject) throws {
     var copy: Any = instance
     try set(value, key: key, for: &copy)
 }
 
 /// Set value for key of an instance
-public func set<T>(_ value: Any, key: String, for instance: inout T) throws {
+public func set<T>(_ value: Any?, key: String, for instance: inout T) throws {
     try property(type: T.self, key: key).write(value, to: mutableStorage(instance: &instance))
 }
 

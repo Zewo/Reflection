@@ -24,7 +24,7 @@ public struct Property {
         public let key: String
         public let type: Any.Type
         let offset: Int
-        func write(_ value: Any, to storage: UnsafeMutableRawPointer) throws {
+        func write(_ value: Any?, to storage: UnsafeMutableRawPointer) throws {
             return try extensions(of: type).write(value, to: storage.advanced(by: offset))
         }
     }
